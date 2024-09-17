@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrangible\CatalogProductPreselect\Plugin\ConfigurableProduct\Block\Product\View\Type;
 
 use FeWeDev\Base\Json;
+use Infrangible\CatalogProductPreselect\Helper\Data;
 use Infrangible\Core\Helper\Stores;
 
 /**
@@ -20,23 +21,58 @@ class Configurable
     /** @var Stores */
     protected $storeHelper;
 
-    public function __construct(Json $json, Stores $storeHelper)
+    /** @var Data */
+    protected $helper;
+
+    public function __construct(Json $json, Stores $storeHelper, Data $helper)
     {
         $this->json = $json;
         $this->storeHelper = $storeHelper;
+        $this->helper = $helper;
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
     public function afterGetJsonConfig(
         \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable $subject,
         string $result
     ): string {
+        $site = $subject instanceof \Magento\Swatches\Block\Product\Renderer\Listing\Configurable ? 'listing' : 'page';
+
+        $enabled = $this->storeHelper->getStoreConfigFlag(
+            sprintf(
+                'infrangible_catalogproductpreselect/%s/enable',
+                $site
+            )
+        );
+
+        $mode = $this->storeHelper->getStoreConfig(
+            sprintf(
+                'infrangible_catalogproductpreselect/%s/mode',
+                $site
+            )
+        );
+
         $config = $this->json->decode($result);
 
         $config[ 'preselect' ] = [
-            'enable' => $this->storeHelper->getStoreConfigFlag('infrangible_catalogproductpreselect/page/enable'),
-            'mode'   => $this->storeHelper->getStoreConfig('infrangible_catalogproductpreselect/page/mode')
+            'enable' => $enabled,
+            'mode'   => $mode
         ];
+
+        if ($enabled) {
+            $preselectedProductId = $this->helper->identifyPreselectedProduct(
+                $config,
+                $mode
+            );
+
+            $preselectedAttributes = $preselectedProductId ? $this->helper->getPreselectedAttributes(
+                $config,
+                $preselectedProductId
+            ) : [];
+
+            if ($preselectedAttributes) {
+                $config[ 'defaultValues' ] = $preselectedAttributes;
+            }
+        }
 
         return $this->json->encode($config);
     }

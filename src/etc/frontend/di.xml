@@ -9,7 +9,4 @@
     <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
         <plugin name="infrangible_catalogproductpreselect" type="Infrangible\CatalogProductPreselect\Plugin\ConfigurableProduct\Block\Product\View\Type\Configurable"/>
     </type>
-    <type name="Magento\Swatches\Block\Product\Renderer\Listing\Configurable">
-        <plugin name="infrangible_catalogproductpreselect" type="Infrangible\CatalogProductPreselect\Plugin\Swatches\Block\Product\Renderer\Listing\Configurable"/>
-    </type>
 </config>

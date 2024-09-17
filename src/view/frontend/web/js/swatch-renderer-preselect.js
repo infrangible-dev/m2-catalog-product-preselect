@@ -17,36 +17,8 @@ define([
                 this._super();
 
                 if (this.options.jsonConfig.preselect.enable && ! this.hasSelectedAttributes) {
-                    var self = this;
-                    var preSelectedPrice = null;
-                    var preSelectedProductId = null;
-
-                    $.each(self.options.jsonConfig.optionPrices, function (productId, prices) {
-                        var optionPrice = prices.finalPrice.amount;
-
-                        if (preSelectedProductId === null ||
-                            (self.options.jsonConfig.preselect.mode === 'lowest' && optionPrice < preSelectedPrice) ||
-                            (self.options.jsonConfig.preselect.mode === 'highest' && optionPrice > preSelectedPrice)) {
-
-                            preSelectedPrice = optionPrice;
-                            preSelectedProductId = productId;
-                        }
-                    });
-
-                    var selectedAttributes = {};
-
-                    $.each(self.options.jsonConfig.attributes, function (attributeId, attributeData) {
-                        $.each(attributeData.options, function (optionKey, optionData) {
-                            $.each(optionData.products, function (productKey, productId) {
-                                if (productId === preSelectedProductId) {
-                                    selectedAttributes[attributeData.code] = optionData.id;
-                                }
-                            });
-                        });
-                    });
-
-                    if (! $.isEmptyObject(selectedAttributes)) {
-                        self._EmulateSelected(selectedAttributes);
+                    if (! $.isEmptyObject(this.options.jsonConfig.defaultValues)) {
+                        this._EmulateSelected(this.options.jsonConfig.defaultValues);
                     }
                 }
             },
