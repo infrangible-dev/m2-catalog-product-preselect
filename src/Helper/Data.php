@@ -21,8 +21,27 @@ class Data
         $this->arrays = $arrays;
     }
 
-    public function identifyPreselectedProduct(array $config, string $mode): ?int
+    public function identifyPreselectedProduct(array $config, string $mode, array $attributes = []): ?int
     {
+        $index = $this->arrays->getValue(
+            $config,
+            'index',
+            []
+        );
+
+        $limitProductIds = [];
+
+        foreach ($index as $productId => $productAttributes) {
+            if (empty($attributes)) {
+                $limitProductIds[] = $productId;
+            } elseif (! array_diff(
+                $attributes,
+                $productAttributes
+            )) {
+                $limitProductIds[] = $productId;
+            }
+        }
+
         $preselectedPrice = null;
         $preselectedProductId = null;
 
@@ -33,6 +52,13 @@ class Data
         );
 
         foreach ($optionPrices as $productId => $productPrices) {
+            if (! in_array(
+                $productId,
+                $limitProductIds
+            )) {
+                continue;
+            }
+
             $optionPrice = $this->arrays->getValue(
                 $productPrices,
                 'finalPrice:amount'
