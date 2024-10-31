@@ -35,43 +35,52 @@ class Configurable
         \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable $subject,
         string $result
     ): string {
-        $site = $subject instanceof \Magento\Swatches\Block\Product\Renderer\Listing\Configurable ? 'listing' : 'page';
-
-        $enabled = $this->storeHelper->getStoreConfigFlag(
-            sprintf(
-                'infrangible_catalogproductpreselect/%s/enable',
-                $site
-            )
-        );
-
-        $mode = $this->storeHelper->getStoreConfig(
-            sprintf(
-                'infrangible_catalogproductpreselect/%s/mode',
-                $site
-            )
-        );
-
         $config = $this->json->decode($result);
 
-        $config[ 'preselect' ] = [
-            'enable' => $enabled,
-            'mode'   => $mode
-        ];
+        $currentProduct = $subject->getProduct();
 
-        if ($enabled) {
-            $preselectedProductId = $this->helper->identifyPreselectedProduct(
-                $config,
-                $mode
+        if (! $currentProduct->getData('preconfigured_values')) {
+            $site =
+                $subject instanceof \Magento\Swatches\Block\Product\Renderer\Listing\Configurable ? 'listing' : 'page';
+
+            $enabled = $this->storeHelper->getStoreConfigFlag(
+                sprintf(
+                    'infrangible_catalogproductpreselect/%s/enable',
+                    $site
+                )
             );
 
-            $preselectedAttributes = $preselectedProductId ? $this->helper->getPreselectedAttributes(
-                $config,
-                $preselectedProductId
-            ) : [];
+            $mode = $this->storeHelper->getStoreConfig(
+                sprintf(
+                    'infrangible_catalogproductpreselect/%s/mode',
+                    $site
+                )
+            );
 
-            if ($preselectedAttributes) {
-                $config[ 'defaultValues' ] = $preselectedAttributes;
+            $config[ 'preselect' ] = [
+                'enable' => $enabled,
+                'mode'   => $mode
+            ];
+
+            if ($enabled) {
+                $preselectedProductId = $this->helper->identifyPreselectedProduct(
+                    $config,
+                    $mode
+                );
+
+                $preselectedAttributes = $preselectedProductId ? $this->helper->getPreselectedAttributes(
+                    $config,
+                    $preselectedProductId
+                ) : [];
+
+                if ($preselectedAttributes) {
+                    $config[ 'defaultValues' ] = $preselectedAttributes;
+                }
             }
+        } else {
+            $config[ 'preselect' ] = [
+                'enable' => false
+            ];
         }
 
         return $this->json->encode($config);
