@@ -17,36 +17,34 @@ define([
             _RenderControls: function () {
                 this._super();
 
-                var config = this.options.jsonConfig;
+                const config = this.options.jsonConfig;
 
                 if (config.preselect.enable) {
                     if (this.hasSelectedAttributes) {
-                        var urlSelectedAttributes = this.urlSelectedAttributes;
+                        const urlSelectedAttributes = this.urlSelectedAttributes;
 
-                        var foundCombination = false;
+                        let foundCombination = false;
 
-                        for (var i = 0; i < config.preselect.attributeCombinations.length; i++) {
-                            var attributeCombination = config.preselect.attributeCombinations[i];
-                            var useAttributeCombination = true;
+                        for (let i = 0; i < config.preselect.attributeCombinations.length; i++) {
+                            const attributeCombination = config.preselect.attributeCombinations[i];
+                            let useAttributeCombination = true;
 
-                            var j;
-                            var attributeCode;
-                            for (j = 0; j < attributeCombination.length; j++) {
-                                attributeCode = attributeCombination[j];
+                            for (let j = 0; j < attributeCombination.length; j++) {
+                                const attributeCode = attributeCombination[j];
                                 if (! (attributeCode in urlSelectedAttributes)) {
                                     useAttributeCombination = false;
                                 }
                             }
 
                             if (useAttributeCombination) {
-                                var defaultValues = config.defaultValues;
-                                for (j = 0; j < attributeCombination.length; j++) {
-                                    attributeCode = attributeCombination[j];
+                                let defaultValues = config.defaultValues;
+                                for (let j = 0; j < attributeCombination.length; j++) {
+                                    const attributeCode = attributeCombination[j];
                                     if (attributeCode in defaultValues) {
                                         defaultValues = defaultValues[attributeCode];
                                     }
                                     if (attributeCode in urlSelectedAttributes) {
-                                        var attributeValue = urlSelectedAttributes[attributeCode];
+                                        const attributeValue = urlSelectedAttributes[attributeCode];
                                         if (attributeValue in defaultValues) {
                                             defaultValues = defaultValues[attributeValue];
                                         }
