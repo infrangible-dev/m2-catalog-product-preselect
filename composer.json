@@ -1,11 +1,19 @@
 {
     "name": "infrangible/m2-catalog-product-preselect",
-    "description": "Infrangible Magento 2 Catalog Product Preselect",
+    "description": "Automatically preselects a variant of configurable products on product pages and in product lists: the first one, the cheapest or the most expensive.",
     "type": "magento2-module",
     "version": "2.0.1",
     "license": "MIT",
     "keywords": [
-        "Magento"
+        "Magento",
+        "Magento 2",
+        "Adobe Commerce",
+        "Catalog",
+        "Product options",
+        "Hyvä",
+        "preselect configurable product variant",
+        "preselect cheapest variant",
+        "default variant for configurable products"
     ],
     "homepage": "https://github.com/infrangible-dev/m2-catalog-product-preselect",
     "authors": [
