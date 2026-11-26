@@ -2,7 +2,7 @@
     "name": "infrangible/m2-catalog-product-preselect",
     "description": "Automatically preselects a variant of configurable products on product pages and in product lists: the first one, the cheapest or the most expensive.",
     "type": "magento2-module",
-    "version": "2.0.1",
+    "version": "3.0.0",
     "license": "MIT",
     "keywords": [
         "Magento",
@@ -15,7 +15,7 @@
         "preselect cheapest variant",
         "default variant for configurable products"
     ],
-    "homepage": "https://github.com/infrangible-dev/m2-catalog-product-preselect",
+    "homepage": "https://www.infrangible.dev/modules/catalog-product-preselect",
     "authors": [
         {
             "name": "Andreas Knollmann",
@@ -25,9 +25,15 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
-        "magento/framework": "~101.0.0|~102.0.0|~103.0.0",
-        "infrangible/m2-foundation": "~2.2.0"
+        "php": ">=8.1",
+        "fewedev/base": "~2.4.3",
+        "infrangible/m2-core": "~5.0.6",
+        "infrangible/m2-foundation": "~3.0.2",
+        "magento/framework": "~103.0.6",
+        "magento/module-catalog": "~104.0.0",
+        "magento/module-config": "~101.2.0",
+        "magento/module-configurable-product": "~100.4.0",
+        "magento/module-swatches": "~100.4.0"
     },
     "autoload": {
         "files": [
@@ -36,5 +42,8 @@
         "psr-4": {
             "Infrangible\\CatalogProductPreselect\\": "src"
         }
+    },
+    "require-dev": {
+        "infrangible/phpstan-magento": "~1.2.8"
     }
 }

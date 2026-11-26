@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!--
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2026 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <infrangible_catalogproductpreselect>
+            <listing>
+                <enable>0</enable>
+                <mode>first</mode>
+            </listing>
+            <page>
+                <enable>0</enable>
+                <mode>first</mode>
+            </page>
+        </infrangible_catalogproductpreselect>
+    </default>
+</config>
